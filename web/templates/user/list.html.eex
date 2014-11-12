@@ -1,0 +1,5 @@
+hej
+
+<%= for u <- @users do %>
+  <p><b><%= "#{u.content}" %></b></p>
+<%= end %>
