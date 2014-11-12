@@ -1,10 +1,8 @@
 defmodule ComicBaker.User do
   use Ecto.Model
 
-  validate user,
-    content: present()
-
-  schema "users" do
-    field :content, :string
+  schema "users", primary_key: { :email, :string, []} do
+    field :password, :binary
+    field :salt, :binary
   end
 end

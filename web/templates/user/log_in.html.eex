@@ -1,0 +1,7 @@
+<h1>Sign in</h1>
+
+<form action="<%= user_path(:post_login) %>" method="post">
+  <input type="text" name="email" />
+  <input type="password" name="password" />
+  <input type="submit" />
+</form>
