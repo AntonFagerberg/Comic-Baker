@@ -4,16 +4,7 @@ defmodule ComicBaker.UserController do
   alias ComicBaker.User
   alias ComicBaker.Session
   
-  #plug :authenticate when action in [:upload_test]
   plug :action
-  
-  #defp authenticate(conn, _) do
-  #  if Session.valid(conn) do
-  #    conn
-  #  else
-  #    text conn, 500, "Something went wrong"
-  #  end
-  #end
   
   def get_sign_up(conn, _params) do
     render conn, "sign_up"

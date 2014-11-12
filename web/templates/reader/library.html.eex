@@ -1,1 +1,6 @@
 <h1>Library</h1>
+
+<form action="<%= reader_path(:upload) %>" method="post" enctype="multipart/form-data">
+  <input type="file" name="le_file" />
+  <input type="submit" />
+</form>
