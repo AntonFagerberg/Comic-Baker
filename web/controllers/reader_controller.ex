@@ -36,7 +36,8 @@ defmodule ComicBaker.ReaderController do
         case File.copy(path, "#{u_path}/#{filename}") do
           {:ok, x} -> 
             System.cmd "/usr/bin/unzip", ["-o", "#{u_path}/#{filename}", "-d", "#{u_path}"]
-          {:error, x} -> IO.puts x
+          {:error, x} -> 
+            IO.puts x
         end
       _ -> IO.puts "TODO error"
     end
@@ -59,23 +60,37 @@ defmodule ComicBaker.ReaderController do
     [".jpg", ".jpeg"] |> Enum.any?(&(&1 == String.slice filename, -(String.length &1), String.length &1))
   end
   
+  defp owns_book(id, email) do
+    case Repo.get ComicBaker.Book, 2 do
+      %Book{email: book_email} -> email == book_email
+      _ -> false
+    end
+  end
+  
   def cover(conn, %{"id" => id}) do
-    {:ok, files} = File.ls("#{base_dir}/#{id}")
-    
-    {:ok, image} = files |> Enum.filter(&(valid_extension &1)) |> Enum.fetch 0
-    
-    send_jpg conn, "#{base_dir}/#{id}/#{image}"
+    if owns_book(id, get_session(conn, :email)) do
+      {:ok, files} = File.ls("#{base_dir}/#{id}")
+      {:ok, image} = files |> Enum.filter(&(valid_extension &1)) |> Enum.fetch 0
+      
+      send_jpg conn, "#{base_dir}/#{id}/#{image}"
+    else
+      text conn, 401, "Unauthorized access!"
+    end
   end
   
   def page(conn, %{"id" => id, "img" => img}) do
-    {:ok, files} = File.ls("#{base_dir}/#{id}")
-    image = Enum.find files, &(&1 == URI.decode_www_form(img))
-    
-    IO.puts image
-    
-    IO.puts "img #{image}"
-    
-    send_jpg conn, "#{base_dir}/#{id}/#{image}"
+    if owns_book(id, get_session(conn, :email)) do
+      {:ok, files} = File.ls("#{base_dir}/#{id}")
+      image = Enum.find files, &(&1 == URI.decode_www_form(img))
+      
+      IO.puts image
+      
+      IO.puts "img #{image}"
+      
+      send_jpg conn, "#{base_dir}/#{id}/#{image}"
+    else
+      text conn, 401, "Unauthorized access!"
+    end
   end
   
   def page_urls(conn, %{"id" => id}) do
