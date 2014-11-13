@@ -8,13 +8,14 @@ defmodule ComicBaker.Book do
     field :filename, :string
     field :email, :string
     field :created, :datetime
+    field :page, :integer
   end
   
   def all(email) do
     Repo.all from b in ComicBaker.Book, where: b.email == ^email
   end
   
-  def owner(id, email) do
-    Repo.all(from b in ComicBaker.Book, where: b.email == ^email and b.id == ^id) != []
+  def get(id, email) do
+    Enum.at Repo.all(from b in ComicBaker.Book, where: b.email == ^email and b.id == ^id), 0
   end
 end

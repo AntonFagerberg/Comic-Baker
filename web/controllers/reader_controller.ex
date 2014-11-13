@@ -63,9 +63,12 @@ defmodule ComicBaker.ReaderController do
   def cover(conn, %{"id" => id}) do
     {id_int, _} = Integer.parse id
     
-    if Book.owner(id_int, get_session(conn, :email)) do
+    if Book.get(id_int, get_session(conn, :email)) != nil do
       {:ok, files} = File.ls("#{base_dir}/#{id}")
-      {:ok, image} = files |> Enum.filter(&(valid_extension &1)) |> Enum.fetch 0
+      
+      {:ok, image} = files 
+      |> Enum.filter(&(valid_extension &1)) 
+      |> Enum.fetch 0
       
       send_jpg conn, "#{base_dir}/#{id}/#{image}"
     else
@@ -75,14 +78,18 @@ defmodule ComicBaker.ReaderController do
   
   def page(conn, %{"id" => id, "img" => img}) do
     {id_int, _} = Integer.parse id
+    book = Book.get(id_int, get_session(conn, :email))
     
-    if Book.owner(id_int, get_session(conn, :email)) do
+    if book != nil do
       {:ok, files} = File.ls("#{base_dir}/#{id}")
-      image = Enum.find files, &(&1 == URI.decode_www_form(img))
+      images = files 
+      |> Enum.filter(&(valid_extension &1)) 
+      |> Enum.with_index
       
-      IO.puts image
+      {image, page} = Enum.find images, fn{image, page} -> image == URI.decode_www_form(img) end
       
-      IO.puts "img #{image}"
+      book = %{book | page: page}
+      Repo.update book
       
       send_jpg conn, "#{base_dir}/#{id}/#{image}"
     else
@@ -91,9 +98,18 @@ defmodule ComicBaker.ReaderController do
   end
   
   def page_urls(conn, %{"id" => id}) do
-    {:ok, files} = File.ls("#{base_dir}/#{id}")
-    images = files |> Enum.filter(&(valid_extension &1)) |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, URI.encode_www_form &1)))
+    {id_int, _} = Integer.parse id
+    book = Book.get(id_int, get_session(conn, :email))
     
-    json conn, JSON.encode!(images)
+    if book != nil do
+      {:ok, files} = File.ls("#{base_dir}/#{id}")
+      urls = files 
+      |> Enum.filter(&(valid_extension &1)) 
+      |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, URI.encode_www_form &1)))
+      
+      json conn, JSON.encode!(%{page: book.page, urls: urls})
+    else
+      text conn, 401, "Unauthorized access!"
+    end
   end
 end

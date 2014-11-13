@@ -54,8 +54,9 @@
     }
 
     comicBaker.read = function (apiURL) {
-      $.ajax(apiURL).then(function (urls) {
-        pageURLs = urls;
+      $.ajax(apiURL).then(function (response) {
+        pageURLs = response.urls;
+        index = response.page;
         showPage(index);
       });
     };
