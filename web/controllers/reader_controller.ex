@@ -1,7 +1,6 @@
 defmodule ComicBaker.ReaderController do
   use Phoenix.Controller
   
-  alias ComicBaker.User
   alias ComicBaker.Session
   alias ComicBaker.Book
   alias Poison, as: JSON
@@ -24,7 +23,7 @@ defmodule ComicBaker.ReaderController do
   end
   
   def library(conn, _) do
-    render conn, "library", books: Book.all get_session(conn, :email)
+    render conn, "library", books: ((Book.all get_session(conn, :email)) |> Enum.sort (&(&1.title < &2.title)))
   end
   
   def upload(conn, %{"file" => %Plug.Upload{content_type: content_type, filename: filename, path: path}}) do
@@ -43,7 +42,7 @@ defmodule ComicBaker.ReaderController do
       _ -> IO.puts "TODO error"
     end
     
-    render conn, "library", books: Book.all get_session(conn, :email)
+    redirect conn, ComicBaker.Router.Helpers.reader_path(:library)
   end
   
   def read(conn, %{"id" => id}) do
@@ -85,6 +84,7 @@ defmodule ComicBaker.ReaderController do
     if book != nil do
       {:ok, files} = File.ls("#{base_dir}/#{id}")
       images = files 
+      |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
       |> Enum.filter(&(valid_extension &1)) 
       |> Enum.with_index
       
