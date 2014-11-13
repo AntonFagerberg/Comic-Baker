@@ -28,10 +28,9 @@ defmodule ComicBaker.ReaderController do
   end
   
   def upload(conn, %{"file" => %Plug.Upload{content_type: content_type, filename: filename, path: path}}) do
-    book = Repo.insert %Book{title: filename, filename: filename, email: get_session(conn, :email), created: Ecto.DateTime.local}
-    
     case String.slice filename, -3, 3 do
       "cbz" ->
+        book = Repo.insert %Book{title: filename, filename: filename, email: get_session(conn, :email), created: Ecto.DateTime.local}
         u_path = "#{base_dir}/#{book.id}"
         File.mkdir_p u_path
         
@@ -69,6 +68,7 @@ defmodule ComicBaker.ReaderController do
       {:ok, files} = File.ls("#{base_dir}/#{id}")
       
       {:ok, image} = files 
+      |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
       |> Enum.filter(&(valid_extension &1)) 
       |> Enum.fetch 0
       
@@ -106,6 +106,7 @@ defmodule ComicBaker.ReaderController do
     if book != nil do
       {:ok, files} = File.ls("#{base_dir}/#{id}")
       urls = files 
+      |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
       |> Enum.filter(&(valid_extension &1)) 
       |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, URI.encode_www_form &1)))
       

@@ -1,11 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Concert+One);
-@import url(http://fonts.googleapis.com/css?family=Patua+One|Knewave|Londrina+Shadow|Londrina+Sketch);
+@import url(http://fonts.googleapis.com/css?family=Patua+One);
 
-/*
-font-family: 'Knewave', cursive;
-font-family: 'Londrina Shadow', cursive;
-font-family: 'Londrina Sketch', cursive;
-*/
 body {
   margin: 0;
   padding: 0;
@@ -150,28 +144,29 @@ p {
   position: absolute;
   top: 50%;
   font-size: 48px;
-  line-height: 30px;
   font-weight: bold;
   color: #fff;
   cursor: pointer;
-  font-family: 'Concert One', cursive;
+  font-family: 'Patua One', cursive;
 }
 
 .change-page.disabled {
   color: #444;
 }
 
-#close {
+a#close {
   color: #fff;
   font-size: 48px;
-  line-height: 30px;
-  padding-left: 8px;
   font-weight: bold;
-  font-family: 'Concert One', cursive;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-family: 'Patua One', cursive;
 }
 
-#close:hover {
+a#close:hover {
   color: #444;
+  text-decoration: none;
 }
 
 .change-page.right {

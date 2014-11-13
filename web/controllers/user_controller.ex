@@ -28,7 +28,8 @@ defmodule ComicBaker.UserController do
     # TODO Check if user exists
     Repo.insert %Account{email: email, salt: salt, password: hash_password}
     
-    render conn, "signup"
+    put_session(conn, :email, email)
+    |> redirect(ComicBaker.Router.Helpers.reader_path(:library))
   end
   
   def get_login(conn, _) do
