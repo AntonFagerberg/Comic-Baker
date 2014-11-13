@@ -8,8 +8,8 @@
 <div class="library">
   <%= for book <- @books do %>
     <div class="cover">
-      <a>
-        <img src="<%= reader_path(:page, book.id, 0) %>" />
+      <a href="<%= reader_path(:read, book.id) %>">
+        <img src="<%= reader_path(:cover, book.id) %>" />
       </a>
     </div>
   <%= end %>

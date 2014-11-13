@@ -4,6 +4,7 @@ defmodule ComicBaker.ReaderController do
   alias ComicBaker.User
   alias ComicBaker.Session
   alias ComicBaker.Book
+  alias Poison, as: JSON
   
   #plug Plug.Parsers, length: 25_000_000, parsers: [:urlencoded, :multipart]
   plug :authenticate
@@ -44,22 +45,47 @@ defmodule ComicBaker.ReaderController do
     render conn, "library", books: Book.all get_session(conn, :email)
   end
   
-  def page(conn, %{"id" => id, "nr" => nr}) do
+  def read(conn, %{"id" => id}) do
+    render conn, "page", api_url: ComicBaker.Router.Helpers.reader_path(:page_urls, id)
+  end
+  
+  def cover(conn, %{"id" => id}) do
+    {:ok, files} = File.ls("#{base_dir}/#{id}")
+    {:ok, image} = files |> Enum.filter(&(String.slice &1, -4, 4) == ".jpg") |> Enum.fetch 0
+    
+    conn
+    |> put_resp_header("content-type", Plug.MIME.path("image/jpeg"))
+    |> send_file(200, "#{base_dir}/#{id}/#{image}")
+    |> halt
+  end
+  
+  def page(conn, %{"id" => id, "img" => img}) do
     # TODO make sure user owns book
     {:ok, files} = File.ls("#{base_dir}/#{id}")
-    images = Enum.filter files, fn(x) -> (String.slice x, -4, 4) == ".jpg" end
-    size = Enum.count images
-    {nr_i, _} = Integer.parse nr
-    {:ok, image} = Enum.fetch images, nr_i
+    #image = files |> Enum.filter files, fn(x) -> (String.slice x, -4, 4) == ".jpg" end
+    image = Enum.find files, &(&1 == img)
     
-    cond do
-      nr_i <= size -> 
+    IO.puts image
+    #image = files |> Enum.filter(&(String.slice &1, -4, 4) == ".jpg")
+    
+    #size = Enum.count images
+    #{nr_i, _} = Integer.parse nr
+    #{:ok, image} = Enum.fetch images, nr_i
+    
+    #cond do
+      #nr_i <= size -> 
         conn
         |> put_resp_header("content-type", Plug.MIME.path("image/jpeg"))
         |> send_file(200, "#{base_dir}/#{id}/#{image}")
         |> halt
-      true ->
-        text conn, 500, "Something went wrong"
-    end
+    #  true ->
+    #    text conn, 500, "Something went wrong"
+    #end
+  end
+  
+  def page_urls(conn, %{"id" => id}) do
+    {:ok, files} = File.ls("#{base_dir}/#{id}")
+    images = files |> Enum.filter(&(String.slice &1, -4, 4) == ".jpg") |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, &1)))
+    json conn, JSON.encode!(images)
   end
 end

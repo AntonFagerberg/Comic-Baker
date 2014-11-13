@@ -1,0 +1,13 @@
+<h1>Page</h1>
+
+<div id="page"></div>
+<!--<div class="change-page left">
+<button id="left-button" class="large green pill"><i class="icon-reply"></i></button>
+</div>-->
+<!--<div class="change-page right">
+<button id="right-button" class="large green pill"><i class="icon-share-alt"></i></button>
+</div>-->
+<script src="/js/read.js" type="text/javascript"></script>
+<script type="text/javascript">
+  comicBaker.read('<%= @api_url %>');
+</script>
