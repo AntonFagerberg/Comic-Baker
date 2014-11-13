@@ -7,17 +7,17 @@ defmodule ComicBaker.Router do
 
     get "/", ComicBaker.MainController, :main
     
-    get "/library", ComicBaker.ReaderController, :get_library
+    get "/library", ComicBaker.ReaderController, :library
     post "/library", ComicBaker.ReaderController, :upload
     
-    get "/signup", ComicBaker.UserController, :index
-    post "/signup", ComicBaker.UserController, :create
+    get "/signup", ComicBaker.UserController, :get_signup
+    post "/signup", ComicBaker.UserController, :post_signup
     
     get "/login", ComicBaker.UserController, :get_login
     post "/login", ComicBaker.UserController, :post_login
     
-    get "/upload_test", ComicBaker.UserController, :upload_test
-    post "/upload_test", ComicBaker.UserController, :upload_test
+    #get "/upload_test", ComicBaker.UserController, :upload_test
+    #post "/upload_test", ComicBaker.UserController, :upload_test
   end
 
   # Other scopes may use custom stacks.

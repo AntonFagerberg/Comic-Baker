@@ -1,45 +1,54 @@
 defmodule ComicBaker.UserController do
   use Phoenix.Controller
   
-  alias ComicBaker.User
+  alias ComicBaker.Account
   alias ComicBaker.Session
   
+  plug :not_authenticated
   plug :action
   
-  def get_sign_up(conn, _params) do
-    render conn, "sign_up"
+  defp not_authenticated(conn, _) do
+    if !Session.valid(conn) do
+      conn
+    else
+      redirect conn, ComicBaker.Router.Helpers.reader_path(:get_library)
+    end
   end
   
-  def post_sign_up(conn, %{"email" => email, "password" => password}) do
+  def get_signup(conn, _params) do
+    render conn, "signup"
+  end
+  
+  def post_signup(conn, %{"email" => email, "password" => password}) do
     salt = Enum.reduce(0..100, <<>>, fn(_, acc) -> <<:random.uniform(256)>> <> acc end)
     {:ok, hash_password} = :pbkdf2.pbkdf2(:sha512, password, salt, 20480, 160)
     
     # TODO Check if user exists
-    Repo.insert %User{email: email, salt: salt, password: hash_password}
+    Repo.insert %Account{email: email, salt: salt, password: hash_password}
     
-    render conn, "sign_up"
+    render conn, "signup"
   end
   
   def get_login(conn, _) do
-    render conn, "log_in"
+    render conn, "login"
   end
   
   def post_login(conn, %{"email" => email, "password" => password}) do
-    user = Repo.get User, email
+    user = Repo.get Account, email
     
     valid_login = 
       case user do
-        %User{email: email, password: user_password, salt: user_salt} ->
+        %Account{email: email, password: user_password, salt: user_salt} ->
           {:ok, hash_password} = :pbkdf2.pbkdf2(:sha512, password, user_salt, 20480, 160)
           hash_password == user_password
         _ -> false
       end
     
     if valid_login do
-      conn = put_session(conn, :user, email)
+      conn = put_session(conn, :email, email)
     end
     
-    render conn, "log_in"
+    render conn, "login"
   end
   
   #def upload_test(conn, _params) do

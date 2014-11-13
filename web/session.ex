@@ -1,13 +1,13 @@
 defmodule ComicBaker.Session do
   use Phoenix.Controller
   
-  alias ComicBaker.User
+  alias ComicBaker.Account
   
   def valid(conn) do
-    case get_session(conn, :user) do
+    case get_session(conn, :email) do
       user_session ->
-        case Repo.get User, user_session do
-          %User{email: email} -> user_session == email
+        case Repo.get Account, user_session do
+          %Account{email: email} -> user_session == email
           _ -> false
         end
       _ -> false

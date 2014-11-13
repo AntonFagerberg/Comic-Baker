@@ -2,7 +2,7 @@ defmodule Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def up do
-    "CREATE TABLE users(
+    "CREATE TABLE account(
       email varchar(140) primary key,
       salt bytea,
       password bytea
@@ -10,6 +10,6 @@ defmodule Repo.Migrations.CreateUsers do
   end
 
   def down do
-    "DROP TABLE users"
+    "DROP TABLE account"
   end
 end

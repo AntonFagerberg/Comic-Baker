@@ -4,3 +4,7 @@
   <input type="file" name="le_file" />
   <input type="submit" />
 </form>
+
+<%= for book <- @books do %>
+  <p><%= book.title %></p>
+<%= end %>

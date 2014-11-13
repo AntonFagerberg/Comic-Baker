@@ -1,8 +1,6 @@
 <h1>Sign up</h1>
 
-<img src="http://localhost:4000/upload_test" />
-
-<form action="<%= user_path(:create) %>" method="post">
+<form action="<%= user_path(:post_signup) %>" method="post">
   <input type="text" name="email" />
   <input type="password" name="password" />
   <input type="submit" />
