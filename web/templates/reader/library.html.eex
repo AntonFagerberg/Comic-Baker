@@ -5,6 +5,12 @@
   <input type="submit" />
 </form>
 
-<%= for book <- @books do %>
-  <p><%= book.title %></p>
-<%= end %>
+<div class="library">
+  <%= for book <- @books do %>
+    <div class="cover">
+      <a>
+        <img src="<%= reader_path(:page, book.id, 0) %>" />
+      </a>
+    </div>
+  <%= end %>
+</div>

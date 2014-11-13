@@ -10,6 +10,8 @@ defmodule ComicBaker.Router do
     get "/library", ComicBaker.ReaderController, :library
     post "/library", ComicBaker.ReaderController, :upload
     
+    get "/library/book/:id/page/:nr", ComicBaker.ReaderController, :page
+    
     get "/signup", ComicBaker.UserController, :get_signup
     post "/signup", ComicBaker.UserController, :post_signup
     

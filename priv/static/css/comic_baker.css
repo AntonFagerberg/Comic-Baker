@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #2c2c2c;
+}
+
+.library {
+  text-align: center;
+  padding: 10px;
+}
+
+.cover {
+  display: inline-block;
+  text-align: center;
+}
+
+.cover img {
+  background-color: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  padding: 5px;
+  height: 300px;
+  width: 225px;
+  margin: 10px 10px 10px 0;
+}
+
+.cover img:hover {
+  background-color: #46bd51;
+}

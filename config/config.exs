@@ -18,7 +18,11 @@ config :phoenix, ComicBaker.Router,
 # Session configuration
 config :phoenix, ComicBaker.Router,
   session: [store: :cookie,
-            key: "_comic_baker_key"]
+            key: "_comic_baker_key"],
+  parsers: [parsers: [:urlencoded, :multipart, :json],
+            accept: ["*/*"],
+            json_decoder: Poison,
+            length: 10_000_000_000]
 
 # Configures Elixir's Logger
 config :logger, :console,

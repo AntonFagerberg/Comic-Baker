@@ -9,6 +9,9 @@ defmodule ComicBaker.ReaderController do
   plug :authenticate
   plug :action
   
+  defp base_dir do
+    "/Users/anton/Desktop/CB"
+  end
   
   defp authenticate(conn, _) do
     if Session.valid(conn) do
@@ -27,7 +30,7 @@ defmodule ComicBaker.ReaderController do
     
     case String.slice filename, -3, 3 do
       "cbz" ->
-        u_path = "/Users/anton/Desktop/CB/#{book.id}"
+        u_path = "#{base_dir}/#{book.id}"
         File.mkdir_p u_path
         
         case File.copy(path, "#{u_path}/#{filename}") do
@@ -39,5 +42,24 @@ defmodule ComicBaker.ReaderController do
     end
     
     render conn, "library", books: Book.all get_session(conn, :email)
+  end
+  
+  def page(conn, %{"id" => id, "nr" => nr}) do
+    # TODO make sure user owns book
+    {:ok, files} = File.ls("#{base_dir}/#{id}")
+    images = Enum.filter files, fn(x) -> (String.slice x, -4, 4) == ".jpg" end
+    size = Enum.count images
+    {nr_i, _} = Integer.parse nr
+    {:ok, image} = Enum.fetch images, nr_i
+    
+    cond do
+      nr_i <= size -> 
+        conn
+        |> put_resp_header("content-type", Plug.MIME.path("image/jpeg"))
+        |> send_file(200, "#{base_dir}/#{id}/#{image}")
+        |> halt
+      true ->
+        text conn, 500, "Something went wrong"
+    end
   end
 end
