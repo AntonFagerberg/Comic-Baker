@@ -1,4 +1,0 @@
-<h1>Welcome</h1>
-
-<a href="<%= user_path(:get_login) %>">Log in</a>
-<a href="<%= user_path(:get_signup) %>">Sign up</a>

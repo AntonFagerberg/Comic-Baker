@@ -1,33 +1,20 @@
 defmodule ComicBaker.Router do
   use Phoenix.Router
 
-  scope "/" do
-    # Use the default browser stack.
+  scope alias: ComicBaker do
     pipe_through :browser
-
-    get "/", ComicBaker.MainController, :main
     
-    get "/library", ComicBaker.ReaderController, :library
-    post "/library", ComicBaker.ReaderController, :upload
+    get "/", UserController, :get_login
+    post "/login", UserController, :post_login
+    get "/signup", UserController, :get_signup
+    post "/signup", UserController, :post_signup
+    get "/logout", UserController, :logout
     
-    get "/library/book/:id/page/:img", ComicBaker.ReaderController, :page
-    get "/library/book/:id/pages", ComicBaker.ReaderController, :page_urls
-    get "/library/book/:id/cover", ComicBaker.ReaderController, :cover
-    
-    get "/library/book/:id/read", ComicBaker.ReaderController, :read
-    
-    get "/signup", ComicBaker.UserController, :get_signup
-    post "/signup", ComicBaker.UserController, :post_signup
-    
-    get "/login", ComicBaker.UserController, :get_login
-    post "/login", ComicBaker.UserController, :post_login
-    
-    #get "/upload_test", ComicBaker.UserController, :upload_test
-    #post "/upload_test", ComicBaker.UserController, :upload_test
+    get "/library", ReaderController, :library
+    post "/library", ReaderController, :upload
+    get "/library/book/:id/page/:img", ReaderController, :page
+    get "/library/book/:id/pages", ReaderController, :page_urls
+    get "/library/book/:id/cover", ReaderController, :cover
+    get "/library/book/:id/read", ReaderController, :read
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api" do
-  #   pipe_through :api
-  # end
 end

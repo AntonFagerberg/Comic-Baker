@@ -4,8 +4,8 @@
         $img = $('<img />'),
         pageURLs = [],
         index = 0,
-        $rightButton = $('#right-button'),
-        $leftButton = $('#left-button'),
+        $rightButton = $('.change-page.right'),
+        $leftButton = $('.change-page.left'),
         $pageDisplay = $("#page-number-display");
 
     $page.on('swipeleft', function () {
@@ -41,15 +41,15 @@
         $pageDisplay.text('Page ' + (index + 1) + ' of ' + pageURLs.length);
 
         if (index === 0) {
-            $leftButton.removeClass('green').addClass('disabled');
+            $leftButton.css("color", "#444");
         } else if (index == 1) {
-            $leftButton.addClass('green').removeClass('disabled');
+            $leftButton.css("color", "#fff");
         }
 
         if (index === pageURLs.length - 1) {
-            $rightButton.removeClass('green').addClass('disabled');
+            $rightButton.css("color", "#444");
         } else if (index ==  pageURLs.length - 2) {
-            $rightButton.addClass('green').removeClass('disabled');
+            $rightButton.css("color", "#fff");
         }
     }
 

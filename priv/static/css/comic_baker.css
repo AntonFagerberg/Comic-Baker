@@ -1,7 +1,78 @@
+@import url(http://fonts.googleapis.com/css?family=Concert+One);
+
 body {
   margin: 0;
   padding: 0;
   background-color: #2c2c2c;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+#account {
+  background-color: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  padding: 5px;
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 25px;
+  text-align: center;
+}
+
+#account form p {
+  font-family: 'Concert One', cursive;
+  font-size: 32px;
+  line-height: 0px;
+  margin-top: 0px;
+}
+
+#account form a {
+  font-family: 'Concert One', cursive;
+  font-size: 20px;
+}
+
+#account form a:hover {
+  color: #777;
+}
+
+#account form {
+  background-color: #ececec;
+  padding: 10px;
+}
+
+#menu {
+  text-align: center;
+}
+
+#menu a {
+  font-family: 'Concert One', cursive;
+  display: inline-block;
+  font-size: 32px;
+  background-color: #fff;
+  border: 2px solid #ececec;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-right: 10px;
+  padding: 0 20px 15px 20px;
+}
+
+#upload {
+  background-color: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  padding: 5px;
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#upload form {
+  background-color: #ececec;
+  padding: 10px;
 }
 
 .library {
@@ -41,4 +112,31 @@ body {
 #page img {
   max-height: 100%;
   max-width: 100%;
+}
+
+.change-page {
+  position: absolute;
+  top: 50%;
+  font-size: 48px;
+  line-height: 30px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Concert One', cursive;
+}
+
+.close {
+  color: #fff;
+  font-size: 48px;
+  line-height: 30px;
+  padding-left: 8px;
+  font-weight: bold;
+  font-family: 'Concert One', cursive;
+}
+
+.change-page.right {
+  right: 5px;
+}
+.change-page.left {
+  left: 5px;
 }

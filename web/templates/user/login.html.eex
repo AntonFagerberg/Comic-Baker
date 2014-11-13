@@ -1,7 +1,10 @@
-<h1>Sign in</h1>
-
-<form action="<%= user_path(:post_login) %>" method="post">
-  <input type="text" name="email" />
-  <input type="password" name="password" />
-  <input type="submit" />
-</form>
+<div id="account">
+  <form action="<%= user_path(:post_login) %>" method="post">
+    <p>Sign in</p>
+    <input type="text" name="email" placeholder="E-mail" />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="submit" value="Sign in" />
+    <br><br>
+    <a href="<%= user_path(:get_signup) %>">Create account</a>
+  </form>
+</div>

@@ -1,9 +1,14 @@
-<h1>Library</h1>
+<div id="menu">
+  <a href="#">Settings</a>
+  <a href="<%= user_path(:logout) %>">Sign out</a>
+</div>
 
-<form action="<%= reader_path(:upload) %>" method="post" enctype="multipart/form-data">
-  <input type="file" name="le_file" />
-  <input type="submit" />
-</form>
+<div id="upload">
+  <form action="<%= reader_path(:upload) %>" method="post" enctype="multipart/form-data">
+    <input type="file" name="le_file" />
+    <input type="submit" />
+  </form>
+</div>
 
 <div class="library">
   <%= for book <- @books do %>

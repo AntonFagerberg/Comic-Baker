@@ -4,14 +4,14 @@ defmodule ComicBaker.UserController do
   alias ComicBaker.Account
   alias ComicBaker.Session
   
-  plug :not_authenticated
+  plug :not_authenticated when action in [:get_signup, :post_signup, :get_login, :post_login]
   plug :action
   
   defp not_authenticated(conn, _) do
     if !Session.valid(conn) do
       conn
     else
-      redirect conn, ComicBaker.Router.Helpers.reader_path(:get_library)
+      redirect conn, ComicBaker.Router.Helpers.reader_path(:library)
     end
   end
   
@@ -49,6 +49,11 @@ defmodule ComicBaker.UserController do
     end
     
     render conn, "login"
+  end
+  
+  def logout(conn, _) do
+    conn = delete_session(conn, :email)
+    redirect conn, "/"
   end
   
   #def upload_test(conn, _params) do
