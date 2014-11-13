@@ -11,7 +11,9 @@ defmodule ComicBaker.UserController do
     if !Session.valid(conn) do
       conn
     else
-      redirect conn, ComicBaker.Router.Helpers.reader_path(:library)
+      conn
+      |> redirect(ComicBaker.Router.Helpers.reader_path(:library))
+      |> halt
     end
   end
   
@@ -45,10 +47,11 @@ defmodule ComicBaker.UserController do
       end
     
     if valid_login do
-      conn = put_session(conn, :email, email)
+      put_session(conn, :email, email)
+      |> redirect(ComicBaker.Router.Helpers.reader_path(:library))
+    else
+      render conn, "login"
     end
-    
-    render conn, "login"
   end
   
   def logout(conn, _) do

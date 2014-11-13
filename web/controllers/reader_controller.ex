@@ -17,7 +17,9 @@ defmodule ComicBaker.ReaderController do
     if Session.valid(conn) do
       conn
     else
-      redirect conn, "/"
+      conn
+      |> redirect("/")
+      |> halt
     end
   end
   
