@@ -13,4 +13,8 @@ defmodule ComicBaker.Book do
   def all(email) do
     Repo.all from b in ComicBaker.Book, where: b.email == ^email
   end
+  
+  def owner(id, email) do
+    Repo.all(from b in ComicBaker.Book, where: b.email == ^email and b.id == ^id) != []
+  end
 end

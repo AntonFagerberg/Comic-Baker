@@ -26,7 +26,7 @@ defmodule ComicBaker.ReaderController do
   end
   
   def upload(conn, %{"le_file" => %Plug.Upload{content_type: content_type, filename: filename, path: path}}) do
-    book = Repo.insert %Book{title: filename, filename: filename, email: get_session(conn, :user), created: Ecto.DateTime.local}
+    book = Repo.insert %Book{title: filename, filename: filename, email: get_session(conn, :email), created: Ecto.DateTime.local}
     
     case String.slice filename, -3, 3 do
       "cbz" ->
@@ -60,15 +60,10 @@ defmodule ComicBaker.ReaderController do
     [".jpg", ".jpeg"] |> Enum.any?(&(&1 == String.slice filename, -(String.length &1), String.length &1))
   end
   
-  defp owns_book(id, email) do
-    case Repo.get ComicBaker.Book, 2 do
-      %Book{email: book_email} -> email == book_email
-      _ -> false
-    end
-  end
-  
   def cover(conn, %{"id" => id}) do
-    if owns_book(id, get_session(conn, :email)) do
+    {id_int, _} = Integer.parse id
+    
+    if Book.owner(id_int, get_session(conn, :email)) do
       {:ok, files} = File.ls("#{base_dir}/#{id}")
       {:ok, image} = files |> Enum.filter(&(valid_extension &1)) |> Enum.fetch 0
       
@@ -79,7 +74,9 @@ defmodule ComicBaker.ReaderController do
   end
   
   def page(conn, %{"id" => id, "img" => img}) do
-    if owns_book(id, get_session(conn, :email)) do
+    {id_int, _} = Integer.parse id
+    
+    if Book.owner(id_int, get_session(conn, :email)) do
       {:ok, files} = File.ls("#{base_dir}/#{id}")
       image = Enum.find files, &(&1 == URI.decode_www_form(img))
       
@@ -96,8 +93,6 @@ defmodule ComicBaker.ReaderController do
   def page_urls(conn, %{"id" => id}) do
     {:ok, files} = File.ls("#{base_dir}/#{id}")
     images = files |> Enum.filter(&(valid_extension &1)) |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, URI.encode_www_form &1)))
-    
-    IO.puts images
     
     json conn, JSON.encode!(images)
   end
