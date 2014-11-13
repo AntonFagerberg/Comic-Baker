@@ -50,7 +50,7 @@ defmodule ComicBaker.UserController do
       put_session(conn, :email, email)
       |> redirect(ComicBaker.Router.Helpers.reader_path(:library))
     else
-      render conn, "login"
+      render conn, "login", email: email
     end
   end
   

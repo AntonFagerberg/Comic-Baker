@@ -5,6 +5,7 @@ defmodule ComicBaker.Router do
     pipe_through :browser
     
     get "/", UserController, :get_login
+    get "/login", UserController, :get_login
     post "/login", UserController, :post_login
     get "/signup", UserController, :get_signup
     post "/signup", UserController, :post_signup

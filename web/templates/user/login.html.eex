@@ -1,10 +1,16 @@
 <div id="account">
   <form action="<%= user_path(:post_login) %>" method="post">
     <p>Sign in</p>
-    <input type="text" name="email" placeholder="E-mail" />
+    <br>
+    <input type="text" name="email" placeholder="E-mail" value="<%= @email %>" />
     <input type="password" name="password" placeholder="Password" />
     <input type="submit" value="Sign in" />
-    <br><br>
-    <a href="<%= user_path(:get_signup) %>">Create account</a>
+    <p><a href="<%= user_path(:get_signup) %>">Create account</a></p>
   </form>
 </div>
+
+<%= if @email != nil do %>
+<div id="warning">
+  E-mail and/or password was incorrect!
+</div>
+<%= end %>

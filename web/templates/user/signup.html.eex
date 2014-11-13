@@ -2,10 +2,10 @@
 <div id="account">
   <form action="<%= user_path(:post_signup) %>" method="post">
     <p>Create account</p>
+    <br>
     <input type="text" name="email" placeholder="E-mail" />
     <input type="password" name="password" placeholder="Password" />
     <input type="submit" value="Sign up" />
-    <br><br>
-    <a href="/">Already have an account? Log in!</a>
+    <p><a href="/">Already have an account? Log in!</a></p>
   </form>
 </div>

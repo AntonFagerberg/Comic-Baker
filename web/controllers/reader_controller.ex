@@ -27,7 +27,7 @@ defmodule ComicBaker.ReaderController do
     render conn, "library", books: Book.all get_session(conn, :email)
   end
   
-  def upload(conn, %{"le_file" => %Plug.Upload{content_type: content_type, filename: filename, path: path}}) do
+  def upload(conn, %{"file" => %Plug.Upload{content_type: content_type, filename: filename, path: path}}) do
     book = Repo.insert %Book{title: filename, filename: filename, email: get_session(conn, :email), created: Ecto.DateTime.local}
     
     case String.slice filename, -3, 3 do

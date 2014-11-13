@@ -1,5 +1,11 @@
 @import url(http://fonts.googleapis.com/css?family=Concert+One);
+@import url(http://fonts.googleapis.com/css?family=Patua+One|Knewave|Londrina+Shadow|Londrina+Sketch);
 
+/*
+font-family: 'Knewave', cursive;
+font-family: 'Londrina Shadow', cursive;
+font-family: 'Londrina Sketch', cursive;
+*/
 body {
   margin: 0;
   padding: 0;
@@ -7,8 +13,31 @@ body {
 }
 
 a {
-  color: #000;
+  color: #3b579a;
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+p {
+  margin: 0;
+}
+
+#warning {
+  background-color: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  padding: 5px;
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 25px;
+  text-align: center;
+  color: #aa183d; 
+  font-family: 'Patua One', cursive;
+  font-size: 18px;
 }
 
 #account {
@@ -20,22 +49,15 @@ a {
   margin: 0 auto;
   margin-top: 25px;
   text-align: center;
+  font-family: 'Patua One', cursive;
 }
 
 #account form p {
-  font-family: 'Concert One', cursive;
   font-size: 32px;
-  line-height: 0px;
-  margin-top: 0px;
 }
 
 #account form a {
-  font-family: 'Concert One', cursive;
   font-size: 20px;
-}
-
-#account form a:hover {
-  color: #777;
 }
 
 #account form {
@@ -48,7 +70,7 @@ a {
 }
 
 #menu a {
-  font-family: 'Concert One', cursive;
+  font-family: 'Patua One', cursive;
   display: inline-block;
   font-size: 32px;
   background-color: #fff;
@@ -56,7 +78,12 @@ a {
   border-radius: 5px;
   margin-top: 15px;
   margin-right: 10px;
-  padding: 0 20px 15px 20px;
+  padding: 10px 20px;
+}
+
+#menu a:hover {
+  text-decoration: none;
+  background-color: #ececec;
 }
 
 #upload {
@@ -73,6 +100,11 @@ a {
 #upload form {
   background-color: #ececec;
   padding: 10px;
+}
+
+#upload form p {
+  font-family: 'Patua One', cursive;
+  font-size: 20px;
 }
 
 .library {
@@ -96,7 +128,7 @@ a {
 }
 
 .cover img:hover {
-  background-color: #46bd51;
+  background-color: #3b579a;
 }
 
 #page {

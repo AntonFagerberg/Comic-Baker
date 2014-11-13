@@ -5,8 +5,10 @@
 
 <div id="upload">
   <form action="<%= reader_path(:upload) %>" method="post" enctype="multipart/form-data">
-    <input type="file" name="le_file" />
-    <input type="submit" />
+    <p>Upload (cbz)</p>
+    <br>
+    <input type="file" name="file" />
+    <input type="submit" value="Upload" />
   </form>
 </div>
 

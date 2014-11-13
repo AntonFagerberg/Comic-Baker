@@ -1,6 +1,0 @@
-<h1>Upload test</h1>
-
-<form action="<%= user_path(:upload_test) %>" method="post" enctype="multipart/form-data">
-  <input type="file" name="le_file" />
-  <input type="submit" />
-</form>
