@@ -1,5 +1,5 @@
 <div id="page"></div>
-<a href="<%= reader_path(:library) %>" class="close">X</a>
+<a href="<%= reader_path(:library) %>" id="close">X</a>
 <div class="change-page left">
   &lt;
 </div>

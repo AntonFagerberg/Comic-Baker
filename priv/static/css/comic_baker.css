@@ -125,13 +125,21 @@ a {
   font-family: 'Concert One', cursive;
 }
 
-.close {
+.change-page.disabled {
+  color: #444;
+}
+
+#close {
   color: #fff;
   font-size: 48px;
   line-height: 30px;
   padding-left: 8px;
   font-weight: bold;
   font-family: 'Concert One', cursive;
+}
+
+#close:hover {
+  color: #444;
 }
 
 .change-page.right {

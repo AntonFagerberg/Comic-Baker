@@ -55,23 +55,34 @@ defmodule ComicBaker.ReaderController do
     |> halt
   end
   
+  defp valid_extension(filename) do
+    [".jpg", ".jpeg"] |> Enum.any?(&(&1 == String.slice filename, -(String.length &1), String.length &1))
+  end
+  
   def cover(conn, %{"id" => id}) do
     {:ok, files} = File.ls("#{base_dir}/#{id}")
-    {:ok, image} = files |> Enum.filter(&(String.slice &1, -4, 4) == ".jpg") |> Enum.fetch 0
+    
+    {:ok, image} = files |> Enum.filter(&(valid_extension &1)) |> Enum.fetch 0
     
     send_jpg conn, "#{base_dir}/#{id}/#{image}"
   end
   
   def page(conn, %{"id" => id, "img" => img}) do
     {:ok, files} = File.ls("#{base_dir}/#{id}")
-    image = Enum.find files, &(&1 == img)
+    image = Enum.find files, &(&1 == URI.decode_www_form(img))
+    
+    IO.puts image
+    
+    IO.puts "img #{image}"
     
     send_jpg conn, "#{base_dir}/#{id}/#{image}"
   end
   
   def page_urls(conn, %{"id" => id}) do
     {:ok, files} = File.ls("#{base_dir}/#{id}")
-    images = files |> Enum.filter(&(String.slice &1, -4, 4) == ".jpg") |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, &1)))
+    images = files |> Enum.filter(&(valid_extension &1)) |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, URI.encode_www_form &1)))
+    
+    IO.puts images
     
     json conn, JSON.encode!(images)
   end

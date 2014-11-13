@@ -41,15 +41,15 @@
         $pageDisplay.text('Page ' + (index + 1) + ' of ' + pageURLs.length);
 
         if (index === 0) {
-            $leftButton.css("color", "#444");
+            $leftButton.addClass("disabled");
         } else if (index == 1) {
-            $leftButton.css("color", "#fff");
+            $leftButton.removeClass("disabled");
         }
 
         if (index === pageURLs.length - 1) {
-            $rightButton.css("color", "#444");
+            $rightButton.addClass("disabled");
         } else if (index ==  pageURLs.length - 2) {
-            $rightButton.css("color", "#fff");
+            $rightButton.removeClass("disabled");
         }
     }
 
