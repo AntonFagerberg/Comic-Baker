@@ -35,7 +35,7 @@ defmodule ComicBaker.ReaderController do
         
         case File.copy(path, "#{u_path}/#{filename}") do
           {:ok, x} -> 
-            System.cmd "/usr/bin/unzip", ["-o", "#{u_path}/#{filename}", "-d", "#{u_path}"]
+            System.cmd "/usr/bin/unzip", ["-o", "#{u_path}/#{filename}", "-d", "#{u_path}","-j"]
           {:error, x} -> 
             IO.puts x
         end
