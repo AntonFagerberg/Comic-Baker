@@ -1,11 +1,16 @@
-
 <div id="account">
   <form action="<%= user_path(:post_signup) %>" method="post">
     <p>Create account</p>
     <br>
-    <input type="text" name="email" placeholder="E-mail" />
+    <input type="text" name="email" placeholder="E-mail" value="<%= @email %>" />
     <input type="password" name="password" placeholder="Password" />
     <input type="submit" value="Sign up" />
     <p><a href="/">Already have an account? Log in!</a></p>
   </form>
 </div>
+
+<%= if @warning != nil do %>
+<div id="warning">
+  <%= @warning %>
+</div>
+<%= end %>

@@ -16,6 +16,10 @@ defmodule ComicBaker.Book do
   end
   
   def get(id, email) do
-    Enum.at Repo.all(from b in ComicBaker.Book, where: b.email == ^email and b.id == ^id), 0
+    Enum.at Repo.all(
+      from b in ComicBaker.Book, 
+      where: b.email == ^email and b.id == ^id,
+      limit: 1
+    ), 0
   end
 end
