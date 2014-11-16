@@ -8,9 +8,7 @@ defmodule ComicBaker.ReaderController do
   plug :authenticate
   plug :action
   
-  defp base_dir do
-    "/Users/anton/Desktop/CB"
-  end
+  @base_dir "/Users/anton/Desktop/CB"
   
   defp authenticate(conn, _) do
     if Session.valid(conn) do
@@ -30,7 +28,7 @@ defmodule ComicBaker.ReaderController do
     case String.slice filename, -3, 3 do
       "cbz" ->
         book = Repo.insert %Book{title: filename, filename: filename, email: get_session(conn, :email), created: Ecto.DateTime.local}
-        u_path = "#{base_dir}/#{book.id}"
+        u_path = "#{@base_dir}/#{book.id}"
         File.mkdir_p u_path
         
         case File.copy(path, "#{u_path}/#{filename}") do
@@ -64,14 +62,14 @@ defmodule ComicBaker.ReaderController do
     {id_int, _} = Integer.parse id
     
     if Book.get(id_int, get_session(conn, :email)) != nil do
-      {:ok, files} = File.ls("#{base_dir}/#{id}")
+      {:ok, files} = File.ls("#{@base_dir}/#{id}")
       
       {:ok, image} = files 
       |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
       |> Enum.filter(&(valid_extension &1)) 
       |> Enum.fetch 0
       
-      send_jpg conn, "#{base_dir}/#{id}/#{image}"
+      send_jpg conn, "#{@base_dir}/#{id}/#{image}"
     else
       text conn, 401, "Unauthorized access!"
     end
@@ -82,7 +80,7 @@ defmodule ComicBaker.ReaderController do
     book = Book.get(id_int, get_session(conn, :email))
     
     if book != nil do
-      {:ok, files} = File.ls("#{base_dir}/#{id}")
+      {:ok, files} = File.ls("#{@base_dir}/#{id}")
       images = files 
       |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
       |> Enum.filter(&(valid_extension &1)) 
@@ -93,7 +91,7 @@ defmodule ComicBaker.ReaderController do
       book = %{book | page: page}
       Repo.update book
       
-      send_jpg conn, "#{base_dir}/#{id}/#{image}"
+      send_jpg conn, "#{@base_dir}/#{id}/#{image}"
     else
       text conn, 401, "Unauthorized access!"
     end
@@ -104,7 +102,7 @@ defmodule ComicBaker.ReaderController do
     book = Book.get(id_int, get_session(conn, :email))
     
     if book != nil do
-      {:ok, files} = File.ls("#{base_dir}/#{id}")
+      {:ok, files} = File.ls("#{@base_dir}/#{id}")
       urls = files 
       |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
       |> Enum.filter(&(valid_extension &1)) 
