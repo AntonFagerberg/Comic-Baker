@@ -55,7 +55,7 @@ defmodule ComicBaker.UserController do
     
     valid_login = 
       case user do
-        %Account{email: email, password: user_password, salt: user_salt} ->
+        %Account{password: user_password, salt: user_salt} ->
           {:ok, hash_password} = :pbkdf2.pbkdf2(:sha512, password, user_salt, 20480, 160)
           hash_password == user_password
         _ -> false
