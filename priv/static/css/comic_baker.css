@@ -20,6 +20,30 @@ p {
   margin: 0;
 }
 
+#dropZoneContainer {
+  background-color: #3b579a;
+  background-color: #fff;
+  border: 1px solid #ececec;
+  border-radius: 5px;
+  padding: 5px;
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 25px;
+  text-align: center;
+  color: #aa183d;
+  font-family: 'Patua One', cursive;
+  font-size: 32px;
+}
+
+#dropZoneContainer.hover {
+  background-color: #3b579a;
+}
+
+#dropZone {
+  background-color: #ececec;
+  padding: 25px 10px;
+}
+
 #warning {
   background-color: #fff;
   border: 1px solid #ececec;
@@ -29,7 +53,7 @@ p {
   margin: 0 auto;
   margin-top: 25px;
   text-align: center;
-  color: #aa183d; 
+  color: #aa183d;
   font-family: 'Patua One', cursive;
   font-size: 18px;
 }

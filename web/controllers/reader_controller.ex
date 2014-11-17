@@ -24,10 +24,10 @@ defmodule ComicBaker.ReaderController do
     render conn, "library", books: ((Book.all get_session(conn, :email)) |> Enum.sort (&(&1.title < &2.title)))
   end
 
-  def upload(conn, %{"file" => %Plug.Upload{content_type: content_type, filename: filename, path: path}}) do
+  defp save_file(filename, path, email) do
     case String.slice filename, -3, 3 do
       "cbz" ->
-        book = Repo.insert %Book{title: filename, filename: filename, email: get_session(conn, :email), created: Ecto.DateTime.local}
+        book = Repo.insert %Book{title: filename, filename: filename, email: email, created: Ecto.DateTime.local}
         u_path = "#{@base_dir}/#{book.id}"
         File.mkdir_p u_path
 
@@ -39,6 +39,18 @@ defmodule ComicBaker.ReaderController do
         end
       _ -> IO.puts "TODO error"
     end
+  end
+
+  def upload_multi(conn, %{"files" => files}) do
+    for %Plug.Upload{content_type: content_type, filename: filename, path: path} <- Map.values files do
+      save_file filename, path, get_session(conn, :email)
+    end
+
+    text conn, 200, ComicBaker.Router.Helpers.reader_path(:library)
+  end
+
+  def upload(conn, %{"file" => %Plug.Upload{content_type: content_type, filename: filename, path: path}}) do
+    save_file filename, path, get_session(conn, :email)
 
     redirect conn, ComicBaker.Router.Helpers.reader_path(:library)
   end

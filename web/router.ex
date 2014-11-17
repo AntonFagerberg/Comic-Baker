@@ -12,7 +12,8 @@ defmodule ComicBaker.Router do
     get "/logout", UserController, :logout
 
     get "/library", ReaderController, :library
-    post "/library", ReaderController, :upload
+    post "/library/upload/single", ReaderController, :upload
+    post "/library/upload/multi", ReaderController, :upload_multi
     get "/library/book/:id/page/:img", ReaderController, :page
     get "/library/book/:id/save/:img", ReaderController, :save_page
     get "/library/book/:id/pages", ReaderController, :page_urls

@@ -12,6 +12,12 @@
   </form>
 </div>
 
+<div id="dropZoneContainer">
+  <div id="dropZone">
+    Drop files here!
+  </div>
+</div>
+
 <div class="library">
   <%= for book <- @books do %>
     <div class="cover">
@@ -21,3 +27,8 @@
     </div>
   <%= end %>
 </div>
+
+<script src="/js/dropzone.js" type="text/javascript"></script>
+<script type="text/javascript">
+  comicBaker.dropZone('<%= reader_path(:upload_multi) %>');
+</script>
