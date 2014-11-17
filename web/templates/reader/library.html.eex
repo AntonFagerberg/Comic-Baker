@@ -1,5 +1,5 @@
 <div id="menu">
-  <a href="#">Settings</a>
+  <!--<a href="#">Settings</a>-->
   <a href="<%= user_path(:logout) %>">Sign out</a>
 </div>
 
