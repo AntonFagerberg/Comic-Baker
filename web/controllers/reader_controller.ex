@@ -78,7 +78,7 @@ defmodule ComicBaker.ReaderController do
 
       {:ok, image} = files
       |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
-      |> Enum.filter(&(valid_extension &1))
+      |> Enum.filter(&valid_extension/1)
       |> Enum.fetch 0
 
       send_jpg conn, "#{@base_dir}/#{id}/#{image}"
@@ -95,10 +95,12 @@ defmodule ComicBaker.ReaderController do
       {:ok, files} = File.ls("#{@base_dir}/#{id}")
       images = files
       |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
-      |> Enum.filter(&(valid_extension &1))
+      |> Enum.filter(&valid_extension/1)
       |> Enum.with_index
 
-      {_, page} = Enum.find images, fn{image, _} -> image == URI.decode_www_form(img) end
+      decoded_img = URI.decode_www_form img
+      {_, page} = images |> Enum.find(&(elem(&1, 0) === decoded_img))
+      
       Repo.update %{book | page: page}
       text conn, 200, "page saved"
     else
@@ -114,10 +116,12 @@ defmodule ComicBaker.ReaderController do
       {:ok, files} = File.ls("#{@base_dir}/#{id}")
       images = files
       |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
-      |> Enum.filter(&(valid_extension &1))
+      |> Enum.filter(&valid_extension/1)
       |> Enum.with_index
 
-      {image, page} = Enum.find images, fn{image, _} -> image == URI.decode_www_form(img) end
+      decoded_img = URI.decode_www_form img
+      {image, _} = images |> Enum.find(&(elem(&1, 0) === decoded_img))
+
       send_jpg conn, "#{@base_dir}/#{id}/#{image}"
     else
       text conn, 401, "Unauthorized access!"
@@ -132,7 +136,7 @@ defmodule ComicBaker.ReaderController do
       {:ok, files} = File.ls("#{@base_dir}/#{id}")
       urls = files
       |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
-      |> Enum.filter(&(valid_extension &1))
+      |> Enum.filter(&valid_extension/1)
       |> Enum.map(&(ComicBaker.Router.Helpers.reader_path(:page, id, URI.encode_www_form &1)))
 
       json conn, JSON.encode!(%{page: book.page, urls: urls})
