@@ -6,9 +6,11 @@ Comic baker is an open-source (GPLv3) online comic book / graphical novel organi
 * Browse comics
 * Personal accounts
 * Save current page on exit - resume
+* Upload comics (old-school form post)
+* Upload comics (multiple - drag-n-drop over ajax)
+* JPEG contained files
 
 ## In development
-* Upload comics (multiple - drag-n-drop)
 * Reverse (manga-style) read mode
 * Download original file
 * File type support: cba, cbr, cbt, cb7
