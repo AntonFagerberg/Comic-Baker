@@ -25,7 +25,7 @@ defmodule ComicBaker.Mixfile do
     [{:phoenix, "0.5.0"},
      {:cowboy, "~> 1.0"},
      {:postgrex, ">= 0.0.0"},
-     {:ecto, "~> 0.2.0"},
+     {:ecto, "~> 0.2.5"},
      {:pbkdf2, git: "https://github.com/basho/erlang-pbkdf2.git", tag: "2.0.0"}]
   end
 end
