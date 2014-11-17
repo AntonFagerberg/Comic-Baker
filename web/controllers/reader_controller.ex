@@ -75,6 +75,25 @@ defmodule ComicBaker.ReaderController do
     end
   end
 
+  def save_page(conn, %{"id" => id, "img" => img}) do
+    {id_int, _} = Integer.parse id
+    book = Book.get(id_int, get_session(conn, :email))
+
+    if book != nil do
+      {:ok, files} = File.ls("#{@base_dir}/#{id}")
+      images = files
+      |> Enum.sort(&(String.downcase(&1) < String.downcase(&2)))
+      |> Enum.filter(&(valid_extension &1))
+      |> Enum.with_index
+
+      {_, page} = Enum.find images, fn{image, _} -> image == URI.decode_www_form(img) end
+      Repo.update %{book | page: page}
+      text conn, 200, "page saved"
+    else
+      text conn, 404, "page not found"
+    end
+  end
+
   def page(conn, %{"id" => id, "img" => img}) do
     {id_int, _} = Integer.parse id
     book = Book.get(id_int, get_session(conn, :email))
@@ -87,10 +106,6 @@ defmodule ComicBaker.ReaderController do
       |> Enum.with_index
 
       {image, page} = Enum.find images, fn{image, _} -> image == URI.decode_www_form(img) end
-
-      book = %{book | page: page}
-      Repo.update book
-
       send_jpg conn, "#{@base_dir}/#{id}/#{image}"
     else
       text conn, 401, "Unauthorized access!"

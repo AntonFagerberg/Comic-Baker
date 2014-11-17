@@ -1,12 +1,12 @@
 (function () {
     window.comicBaker = {};
     var $page = $('#page'),
-        $img = $('<img />'),
+        $hidden = $('#hidden'),
         pageURLs = [],
+        imgs = [],
         index = 0,
         $rightButton = $('.change-page.right'),
-        $leftButton = $('.change-page.left'),
-        $pageDisplay = $("#page-number-display");
+        $leftButton = $('.change-page.left');
 
     $page.on('swipeleft', function () {
         showPage(++index);
@@ -34,11 +34,19 @@
         } else if (i >= pageURLs.length) {
             index = pageURLs.length - 1;
         } else {
-            $img.attr('src', pageURLs[i]);
-            $page.append($img);
-        }
+          for (var n = index - 1; n <= index + 2; n++) {
+            if (index >= 0 && index < pageURLs.length) {
+              if (!imgs[n]) {
+                imgs[n] = $('<img />').attr('src', pageURLs[n]);
+              }
 
-        $pageDisplay.text('Page ' + (index + 1) + ' of ' + pageURLs.length);
+              if (n == index) {
+                $page.empty().append(imgs[n]);
+                $.ajax(pageURLs[n].split("/page/").join("/save/"));
+              }
+            }
+          }
+        }
 
         if (index === 0) {
             $leftButton.addClass("disabled");
