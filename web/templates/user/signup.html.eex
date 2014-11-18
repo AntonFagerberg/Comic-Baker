@@ -5,7 +5,7 @@
     <input type="text" name="email" placeholder="E-mail" value="<%= @email %>" />
     <input type="password" name="password" placeholder="Password" />
     <input type="submit" value="Sign up" />
-    <p><a href="/">Already have an account? Log in!</a></p>
+    <p><a href="/">...or log in!</a></p>
   </form>
 </div>
 

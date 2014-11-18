@@ -1,20 +1,22 @@
 <div id="menu">
-  <!--<a href="#">Settings</a>-->
+  <a href="<%= settings_path(:settings) %>">Settings</a>
   <a href="<%= user_path(:logout) %>">Sign out</a>
 </div>
 
-<div id="upload">
-  <form action="<%= reader_path(:upload) %>" method="post" enctype="multipart/form-data">
-    <p>Upload (cbz)</p>
-    <br>
-    <input type="file" name="file" />
-    <input type="submit" value="Upload" />
-  </form>
-</div>
+<div id="uploadsContainer">
+  <div id="upload">
+    <form action="<%= reader_path(:upload) %>" method="post" enctype="multipart/form-data">
+      <p>Upload (cbz)</p>
+      <br>
+      <input type="file" name="file" />
+      <input type="submit" value="Upload" />
+    </form>
+  </div>
 
-<div id="dropZoneContainer">
-  <div id="dropZone">
-    Drop files here!
+  <div id="dropZoneContainer">
+    <div id="dropZone">
+      Drop files here!
+    </div>
   </div>
 </div>
 
