@@ -21,5 +21,6 @@ defmodule ComicBaker.Router do
     get  "/library/book/:id/read",      ReaderController, :read
 
     get  "/settings",                   SettingsController, :settings
+    post "/settings",                   SettingsController, :change_password
   end
 end

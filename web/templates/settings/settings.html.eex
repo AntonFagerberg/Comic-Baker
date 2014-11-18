@@ -1,1 +1,22 @@
-<h1>Settings</h1>
+<div id="account">
+  <form action="<%= settings_path(:change_password) %>" method="post">
+    <p>Change password</p>
+    <br>
+    <input type="password" name="password[current]" placeholder="Current password" />
+    <input type="password" name="password[new]" placeholder="New password" />
+    <input type="password" name="password[repeat]" placeholder="Repeat new password" />
+    <input type="submit" value="Save" />
+  </form>
+</div>
+
+<%= if @warning != nil do %>
+<div id="warning">
+  <%= @warning %>
+</div>
+<%= end %>
+
+<div id="account">
+  <form>
+    <p><a href="<%= reader_path(:library) %>">Go back</a></p>
+  </form>
+</div>
